@@ -19,7 +19,7 @@
         </div>
         
         <ul>
-            <li v-for="item in items">{{item}}</li>
+            <li v-for="item in items" :class="{strikeout: item.purchased}" @click="togglePurchased(item)">{{item.label}}</li>
         </ul>
         <p v-if="items.length === 0">List is Empty!</p>
         <input type="text" v-model="header">
@@ -34,19 +34,38 @@
                     header:'Vue is easy',
                     newItem:'',
                     items:[
-                        // '25 Bottlles',
-                        // '20 Lunch Boxex',
-                        // '10 Pencils'
+                        {
+                            label:'10 party hats',
+                            purchased: false,
+                            highPriority:false
+                        },
+                        {
+                            label:'20 Lunch Boxes',
+                            purchased: true,
+                            highPriority:false
+                        },
+                        {
+                            label:'10 Pencils',
+                            purchased: false,
+                            highPriority:true
+                        },
+                        
                     ]
                 },
                 methods:{
                     saveItem: function(){
-                        this.items.push(this.newItem);
+                        this.items.push({
+                            label: this.newItem,
+                            purchased: false
+                        });
                         this.newItem = '';
                     },
                     changeState: function(newState){
                         this.state = newState;
                         this.newItem = '';
+                    },
+                    togglePurchased: function(item){
+                        item.purchased = !item.purchased
                     }
                 }
             });
