@@ -9,8 +9,8 @@
        <div id="shopping-list">
         <h1>{{header.toLocaleUpperCase()}}</h1>
         <div class="add-item-form">
-            <input type="text" v-model="newItem" placeholder="Add a new Item" @keyup.enter="items.push(newItem)">
-            <button class="btn btn-primary" @click="items.push(newItem)">Add Item</button>
+            <input type="text" v-model="newItem" placeholder="Add a new Item" @keyup.enter="saveItem">
+            <button class="btn btn-primary" @click="saveItem">Add Item</button>
         </div>
         
         <ul>
@@ -31,6 +31,12 @@
                         '20 Lunch Boxex',
                         '10 Pencils'
                     ]
+                },
+                methods:{
+                    saveItem: function(){
+                        this.items.push(this.newItem);
+                        this.newItem = '';
+                    }
                 }
             });
         </script>
