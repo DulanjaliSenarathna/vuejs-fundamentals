@@ -7,15 +7,21 @@
     </head>
     <body>
        <div id="shopping-list">
-        <h1>{{header.toLocaleUpperCase()}}</h1>
-        <div class="add-item-form">
+        <div class="header">
+            <h1>{{header.toLocaleUpperCase()}}</h1>
+            <button v-if="state === 'default'" class="btn btn-primary" @click="changeState('edit')">Add Item</button>
+            <button v-else class="btn btn-cancel" @click="changeState('default')" >Cancel</button>
+        </div>
+        
+        <div v-if="state === 'edit'" class="add-item-form">
             <input type="text" v-model="newItem" placeholder="Add a new Item" @keyup.enter="saveItem">
-            <button class="btn btn-primary" @click="saveItem">Add Item</button>
+            <button class="btn btn-primary" @click="saveItem">Save Item</button>
         </div>
         
         <ul>
             <li v-for="item in items">{{item}}</li>
         </ul>
+        <p v-if="items.length === 0">List is Empty!</p>
         <input type="text" v-model="header">
        </div>
        <script src="https://unpkg.com/vue@2.4.4/dist/vue.js"></script>
@@ -24,17 +30,22 @@
           var shoppingList =  new Vue({
                 el:'#shopping-list',
                 data:{
+                    state:'default',
                     header:'Vue is easy',
                     newItem:'',
                     items:[
-                        '25 Bottlles',
-                        '20 Lunch Boxex',
-                        '10 Pencils'
+                        // '25 Bottlles',
+                        // '20 Lunch Boxex',
+                        // '10 Pencils'
                     ]
                 },
                 methods:{
                     saveItem: function(){
                         this.items.push(this.newItem);
+                        this.newItem = '';
+                    },
+                    changeState: function(newState){
+                        this.state = newState;
                         this.newItem = '';
                     }
                 }
